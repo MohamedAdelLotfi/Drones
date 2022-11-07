@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 @Table(name = "drone")
@@ -40,6 +41,9 @@ public class Drone extends AbstractAuditingEntity implements Serializable {
     @NotNull
     @Column(name = "drone_state", columnDefinition = "char(2)")
     private String drone_state;
+
+    @OneToMany(mappedBy = "drone")
+    private Set<Medication> items;
 
     public Long getId() {
         return id;
@@ -87,6 +91,14 @@ public class Drone extends AbstractAuditingEntity implements Serializable {
 
     public void setDrone_state(String drone_state) {
         this.drone_state = drone_state;
+    }
+
+    public Set<Medication> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Medication> items) {
+        this.items = items;
     }
 
     /**

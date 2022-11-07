@@ -18,6 +18,8 @@ public class MedicationDTO extends AbstractAuditingEntity implements Serializabl
 
     private byte[] image;
 
+    private Long drone_id;
+
     public Long getId() {
         return id;
     }
@@ -56,6 +58,14 @@ public class MedicationDTO extends AbstractAuditingEntity implements Serializabl
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public Long getDrone_id() {
+        return drone_id;
+    }
+
+    public void setDrone_id(Long drone_id) {
+        this.drone_id = drone_id;
     }
 
     @Override

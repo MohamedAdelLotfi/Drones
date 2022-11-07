@@ -21,7 +21,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	compileOnly 'org.projectlombok:lombok:1.18.24'
-
+	// https://mvnrepository.com/artifact/org.apache.poi/poi
+	implementation 'org.apache.poi:poi:5.2.3'
 	// https://mvnrepository.com/artifact/org.zalando/problem-spring-web-starter
 	implementation group: 'org.zalando', name: 'problem-spring-web-starter', version: '0.26.1'
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'

@@ -3,7 +3,9 @@ package com.musala.drones.service;
 import com.musala.drones.service.dto.MedicationDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,4 +56,20 @@ public interface MedicationService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * Upload Medication Image
+     *
+     * @param image file to upload it to medication
+     * @param id id of entity
+     * @return message of success uploading*/
+    String uploadMedicationImage(MultipartFile image, Long id) throws IOException;
+
+    /**
+     * Sum Weight Medication By Drone Id
+     *
+     * @param drone_Id id of drone
+     *
+     * @return value of sum*/
+    Float getSumOfMedicationWeightByDroneId(Long drone_Id);
 }

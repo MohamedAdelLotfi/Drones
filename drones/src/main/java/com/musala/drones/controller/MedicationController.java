@@ -15,8 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
@@ -151,5 +153,23 @@ public class MedicationController {
         log.debug("REST request to delete medication : {}", id);
         medicationService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+
+    @PostMapping(
+            value = "/upload-medication-image/{id}",
+            produces = { MediaType.APPLICATION_JSON_VALUE },
+            consumes = { MediaType.APPLICATION_JSON_VALUE }
+    )
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public ResponseEntity<String> uploadMedicationImage(@RequestPart("image") MultipartFile image,
+                                                @PathVariable("id") Long id)
+            throws IOException {
+        log.debug("REST request to upload Medication Image : {}", id);
+        MedicationDTO result = medicationService.findOne(id).get();
+        if (result.getId() <= 0) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        String rs = medicationService.uploadMedicationImage(image, id);
+        return ResponseEntity.ok(rs);
     }
 }

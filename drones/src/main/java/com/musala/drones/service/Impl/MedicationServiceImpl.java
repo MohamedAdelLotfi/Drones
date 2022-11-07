@@ -6,13 +6,16 @@ import com.musala.drones.repository.MedicationRepository;
 import com.musala.drones.service.MedicationService;
 import com.musala.drones.service.dto.MedicationDTO;
 import com.musala.drones.service.mapper.MedicationMapper;
+import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -83,6 +86,24 @@ public class MedicationServiceImpl implements MedicationService {
     public void delete(Long id) {
         log.debug("Request to delete Medication : {}", id);
         medicationRepository.deleteById(id);
+    }
+
+    @Override
+    public String uploadMedicationImage(MultipartFile image, Long id) throws IOException {
+        MedicationDTO dto = findOne(id).get();
+        if (dto.getId() > 0) {
+            dto.setImage(IOUtils.toByteArray(image.getInputStream()));
+        }
+        MedicationDTO dt = save(dto);
+        if (dt != null && dt.getImage() != null && dt.getImage().length > 0) {
+            return "FileUploadedSuccess";
+        }
+        return "CannotUploadFile";
+    }
+
+    @Override
+    public Float getSumOfMedicationWeightByDroneId(Long drone_Id) {
+        return medicationRepository.getSumOfMedicationWeightByDroneId(drone_Id);
     }
 
     /**

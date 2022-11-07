@@ -4,12 +4,15 @@ import com.musala.drones.domain.Drone;
 import com.musala.drones.exceptions.BadRequestAlertException;
 import com.musala.drones.repository.DroneRepository;
 import com.musala.drones.service.DroneService;
+import com.musala.drones.service.MedicationService;
 import com.musala.drones.service.dto.DroneDTO;
+import com.musala.drones.service.dto.MedicationDTO;
 import com.musala.drones.service.enums.DroneState;
 import com.musala.drones.service.enums.WeightModel;
 import com.musala.drones.service.mapper.DroneMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +35,9 @@ public class DroneServiceImpl implements DroneService {
 
     private final DroneMapper droneMapper;
 
+    @Autowired
+    MedicationService medicationService;
+
     public DroneServiceImpl(DroneRepository droneRepository, DroneMapper droneMapper) {
         this.droneRepository = droneRepository;
         this.droneMapper = droneMapper;
@@ -40,11 +47,21 @@ public class DroneServiceImpl implements DroneService {
     public DroneDTO save(DroneDTO droneDTO) {
         log.debug("Request to save Drone : {}", droneDTO);
         Drone drone = droneMapper.toEntity(droneDTO);
+        boolean isUpdate = false;
+        if (droneDTO.getId() != null) {
+            isUpdate = true;
+        }
         //
         checkWeightLimit(droneDTO.getWeight_limit());
         checkBatteryCapacity(droneDTO.getBattery_capacity());
         checkSerialNumber(droneDTO.getSerial_number());
-        //
+        validateDroneState(droneDTO);
+        // add drone items
+        if (!isUpdate) {
+            if (droneDTO.getItems() != null && droneDTO.getItems().size() > 0) {
+                createDroneItems(droneDTO, droneDTO.getItems());
+            }
+        }
         drone = droneRepository.save(drone);
         return droneMapper.toDto(drone);
     }
@@ -139,6 +156,47 @@ public class DroneServiceImpl implements DroneService {
             if (serialNumber.length() > 100) {
                 throw new BadRequestAlertException("SerialNumberShouldBe100CharacterAtMaximum", "Drone", "Error");
             }
+        }
+    }
+
+    /**
+     * validate Drone Status
+     *
+     * @param dto object from drone
+     * */
+    private void validateDroneState(DroneDTO dto) {
+        if (dto != null && dto.getDrone_state() != null) {
+            //
+            if (DroneState.LOADING.getValue().equals(dto.getDrone_state()) &&
+                    dto.getBattery_capacity().compareTo(new BigDecimal(15)) < 0) {
+                throw new BadRequestAlertException("DroneCannotLoading.Because,BatteryCapacityLessThan15%", "Drone", "Error");
+            }
+            Float medicationsWeight = medicationService.getSumOfMedicationWeightByDroneId(dto.getId());
+            if (DroneState.LOADED.getValue().equals(dto.getDrone_state())
+                    && medicationsWeight != null
+                    && medicationsWeight.compareTo(dto.getWeight_limit().floatValue()) > 0) {
+                throw new BadRequestAlertException("DroneCannotCarryItemsOverItsLimit", "Drone", "Error");
+            }
+        }
+    }
+
+    /**
+     * Create Drone Medication Items
+     *
+     * @param dto object from drone created
+     * @param droneItemDTOS list of medication items
+     */
+    private void createDroneItems(DroneDTO dto, Set<MedicationDTO> droneItemDTOS) {
+        for (MedicationDTO medicationDTO : droneItemDTOS) {
+            MedicationDTO itemDTO = new MedicationDTO();
+            itemDTO.setDrone_id(dto.getId());
+            itemDTO.setCode(medicationDTO.getCode());
+            itemDTO.setName(medicationDTO.getName());
+            itemDTO.setWeight(medicationDTO.getWeight());
+            itemDTO.setCreated_by("musalauser");
+            itemDTO.setLast_modified_by("musalauser");
+            itemDTO.setIs_active(true);
+            medicationService.save(itemDTO);
         }
     }
 }

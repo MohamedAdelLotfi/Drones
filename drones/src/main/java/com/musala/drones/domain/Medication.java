@@ -26,7 +26,7 @@ public class Medication extends AbstractAuditingEntity implements Serializable {
     private String name;
 
     @NotNull
-    @Column(name = "weight", columnDefinition = "number")
+    @Column(name = "weight", columnDefinition = "float")
     private BigDecimal weight;
 
     @NotNull

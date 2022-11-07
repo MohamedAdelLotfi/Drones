@@ -1,10 +1,12 @@
 package com.musala.drones.service.dto;
 
 import com.musala.drones.domain.AbstractAuditingEntity;
+import com.musala.drones.domain.Medication;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
 
 public class DroneDTO extends AbstractAuditingEntity implements Serializable {
 
@@ -19,6 +21,8 @@ public class DroneDTO extends AbstractAuditingEntity implements Serializable {
     private BigDecimal battery_capacity;
 
     private String drone_state;
+
+    private Set<MedicationDTO> items;
 
     public Long getId() {
         return id;
@@ -66,6 +70,14 @@ public class DroneDTO extends AbstractAuditingEntity implements Serializable {
 
     public void setDrone_state(String drone_state) {
         this.drone_state = drone_state;
+    }
+
+    public Set<MedicationDTO> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<MedicationDTO> items) {
+        this.items = items;
     }
 
     @Override
