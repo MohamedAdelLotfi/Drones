@@ -8,8 +8,11 @@ Run Spring Boot application with command: mvn spring-boot:run
 To check database result : http://localhost:8090/h2-ui
 
 DB Configuration : 
+
 Driver Class: org.h2.Driver
+
 JDBC Url: jdbc:h2:mem:dronedb
+
 UserName: sa
 
 # Swagger API
