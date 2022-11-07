@@ -42,7 +42,7 @@ public class Drone extends AbstractAuditingEntity implements Serializable {
     @Column(name = "drone_state", columnDefinition = "char(2)")
     private String drone_state;
 
-    @OneToMany(mappedBy = "drone")
+    @OneToMany(mappedBy = "drone_id")
     private Set<Medication> items;
 
     public Long getId() {

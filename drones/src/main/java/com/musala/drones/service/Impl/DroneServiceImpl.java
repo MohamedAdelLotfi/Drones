@@ -56,13 +56,14 @@ public class DroneServiceImpl implements DroneService {
         checkBatteryCapacity(droneDTO.getBattery_capacity());
         checkSerialNumber(droneDTO.getSerial_number());
         validateDroneState(droneDTO);
+        drone = droneRepository.save(drone);
+        DroneDTO saveDto = droneMapper.toDto(drone);
         // add drone items
         if (!isUpdate) {
             if (droneDTO.getItems() != null && droneDTO.getItems().size() > 0) {
-                createDroneItems(droneDTO, droneDTO.getItems());
+                createDroneItems(saveDto, droneDTO.getItems());
             }
         }
-        drone = droneRepository.save(drone);
         return droneMapper.toDto(drone);
     }
 

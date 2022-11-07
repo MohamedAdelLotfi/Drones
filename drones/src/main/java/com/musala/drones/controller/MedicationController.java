@@ -156,11 +156,8 @@ public class MedicationController {
     }
 
     @PostMapping(
-            value = "/upload-medication-image/{id}",
-            produces = { MediaType.APPLICATION_JSON_VALUE },
-            consumes = { MediaType.APPLICATION_JSON_VALUE }
+            value = "/upload-medication-image/{id}"
     )
-    @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<String> uploadMedicationImage(@RequestPart("image") MultipartFile image,
                                                 @PathVariable("id") Long id)
             throws IOException {

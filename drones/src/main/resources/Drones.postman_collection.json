@@ -1,0 +1,350 @@
+{
+	"info": {
+		"_postman_id": "984480c3-c3ca-4db2-9988-792a2770d094",
+		"name": "Drones",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Drone",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"serial_number\":\"Drone123\",\n    \"weight_model\":\"MW\",\n    \"weight_limit\":400,\n    \"battery_capacity\":\"90\",\n    \"is_active\":true,\n    \"drone_state\":\"ID\",\n    \"last_modified_by\":\"musalauser\",\n    \"created_by\":\"musalauser\",\n    \"items\": [\n        {\n            \"weight\":200,\n            \"code\":\"MED1\",\n            \"name\":\"Medication_1\",\n            \"is_active\":true,\n            \"last_modified_by\":\"musalauser\",\n            \"created_by\":\"musalauser\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8090/v1/api/drone",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"api",
+								"drone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"serial_number\":\"Drone123\",\n    \"weight_model\":\"MW\",\n    \"weight_limit\":400,\n    \"battery_capacity\":\"90\",\n    \"is_active\":true,\n    \"drone_state\":\"LD\",\n    \"last_modified_by\":\"musalauser\",\n    \"created_by\":\"musalauser\",\n    \"id\":1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8090/v1/api/drone/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"api",
+								"drone",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/v1/api/drone/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"api",
+								"drone",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/v1/api/drone/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"api",
+								"drone",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/v1/api/drones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"api",
+								"drones"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Medication",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"weight\":200,\n    \"code\":\"Med1\",\n    \"name\":\"Medication 1\",\n    \"drone_id\":\"1\",\n    \"is_active\":true,\n    \"last_modified_by\":\"musalauser\",\n    \"created_by\":\"musalauser\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8090/v1/api/medication",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"api",
+								"medication"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"weight\":500,\n    \"code\":\"MED1\",\n    \"name\":\"Medication_1\",\n    \"drone_id\":1,\n    \"is_active\":true,\n    \"last_modified_by\":\"musalauser\",\n    \"created_by\":\"musalauser\",\n    \"id\":2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8090/v1/api/medication/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"api",
+								"medication",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/v1/api/medication/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"api",
+								"medication",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/v1/api/medications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"api",
+								"medications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/v1/api/medication/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"api",
+								"medication",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Medication Image",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/mohamed/Pictures/Screenshot from 2022-11-04 23-10-41.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8090/v1/api/upload-medication-image/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"api",
+								"upload-medication-image",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
